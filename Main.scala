@@ -30,15 +30,13 @@ object Main extends App {
     val createTableSQL =
       """
         |CREATE TABLE IF NOT EXISTS Orders (
-        |  Order_Date DATE,
         |  Product_Name TEXT,
-        |  Expiry_Date DATE,
         |  Quantity INTEGER,
-        |  Unit_Price DOUBLE PRECISION,
         |  Discount DOUBLE PRECISION,
         |  Final_Price DOUBLE PRECISION
         |)
         |""".stripMargin
+
 
     val stmt = connection.createStatement()
     stmt.executeUpdate(createTableSQL)
@@ -46,22 +44,20 @@ object Main extends App {
 
     val insertSQL =
       """
-        |INSERT INTO Orders (Order_Date, Product_Name, Expiry_Date, Quantity, Unit_Price, Discount, Final_Price)
-        |VALUES (?, ?, ?, ?, ?, ?, ?)
+        |INSERT INTO Orders (Product_Name, Quantity, Discount, Final_Price)
+        |VALUES (?, ?, ?, ?)
         |""".stripMargin
 
     val pstmt = connection.prepareStatement(insertSQL)
 
     processedOrders.foreach { order =>
-      pstmt.setDate(1, java.sql.Date.valueOf(order.timestamp.toLocalDate))
-      pstmt.setString(2, order.product.name)
-      pstmt.setDate(3, java.sql.Date.valueOf(order.product.expiryDate))
-      pstmt.setInt(4, order.quantity)
-      pstmt.setDouble(5, order.product.price)
-      pstmt.setDouble(6, order.discount)
-      pstmt.setDouble(7, order.finalPrice)
+      pstmt.setString(1, order.product.name)
+      pstmt.setInt(2, order.quantity)
+      pstmt.setDouble(3, order.discount)
+      pstmt.setDouble(4, order.finalPrice)
       pstmt.addBatch()
     }
+
 
     val insertedCounts = pstmt.executeBatch()
     val totalInserted = insertedCounts.sum
