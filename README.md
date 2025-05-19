@@ -6,7 +6,6 @@ This Scala project processes product orders imported from a CSV file, applies mu
 Features
 Reads orders from a CSV file with fields:
 timestamp, product name, expiry date, quantity, unit price, channel, payment method
-
 Identifies product types based on product names ( cheese, wine, others)
 
 Applies multiple discount rules including:
@@ -26,6 +25,14 @@ Discounts for Visa payment method
 Calculates average of top two applicable discounts per order
 
 Outputs orders enriched with discount and final price information
+
+Case Classes
+
+Product: Represents a product with fields like id, name, price, productType, and expiryDate.
+
+Order: Represents a customer's order with product info, quantity, timestamp, channel, payment method, discount, and final price.
+
+
 
 src/
  └── main/
