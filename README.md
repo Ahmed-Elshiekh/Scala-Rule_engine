@@ -42,3 +42,12 @@ src/
       ├── ProductOrderSystem.scala  
       └── DiscountEngine.scala      
       └── Main.scala                    
+
+
+How to Run
+Place your CSV file with orders in src/main/resources/TRX1000.csv.
+
+Build and run the Main.scala object.
+
+The application will read the orders, process discounts, and output enriched orders with discount percentage and final price.
+
